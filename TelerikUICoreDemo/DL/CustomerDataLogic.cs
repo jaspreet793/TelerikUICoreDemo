@@ -1,32 +1,31 @@
 ﻿using TelerikUICoreDemo.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace TelerikUICoreDemo.DL
 {
     public class CustomerDataLogic
     {
-        readonly List<string> _randomTitle = new List<string>() { "Demo One", "Demo Two", "Demo Three" };
-        // Get All Records
-        public List<Dealer> GetAll()
+        readonly List<string> _randomTitle = new List<string>() { "Demo One", "Demo Two", "Demo Three", "Demo Four" };
+        // Get All Records For a give group id
+        public List<CallListDto> GetAll()
         {
-            var customerList = new List<Dealer>();
+            var customerList = new List<CallListDto>();
+            int id = 100;
 
             for (var i = 1; i <= 100; i++)
             {
                 Random rnd = new Random();
-                int val = rnd.Next(0, 2);
+                int val = rnd.Next(0, 3);
 
-                var customer = new Dealer
+                var customer = new CallListDto
                 {
-                    Id = i,
-                    Balance = 3.33m,
-                    Email = "jay@jay.com",
-                    StartDate = DateTime.Today,
+                    Id = i + id,
+                    Status = "New",
                     Name = _randomTitle[val],
-                    EditUrl = "https://www.google.com"
+                    CallStartDate = DateTime.Today,
+                    LastCallDate = DateTime.Today,
+                    CallSheet = "https://www.google.com"
                 };
 
                 customerList.Add(customer);
@@ -37,17 +36,17 @@ namespace TelerikUICoreDemo.DL
 
 
         // Get a record by Id
-        public Dealer Get(int id)
+        public CallListDto Get(int id)
         {
             Console.WriteLine("Get All got called");
-            var customer = new Dealer
+            var customer = new CallListDto
             {
                 Id = id,
-                Balance = 3.33m,
-                Email = "jay@jay.com",
-                StartDate = DateTime.Today,
-                Name = "The Id Is " + id,
-                EditUrl = "https://www.google.com"
+                Status = "New",
+                Name = _randomTitle[2],
+                CallStartDate = DateTime.Today,
+                LastCallDate = DateTime.Today,
+                CallSheet = "https://www.google.com"
             };
 
             return customer;
@@ -61,43 +60,43 @@ namespace TelerikUICoreDemo.DL
         }
 
         // Save
-        public Dealer Post(Dealer dto)
+        public CallListDto Post(CallListDto dto)
         {
             Console.WriteLine("Post got called");
 
-            if (dto.Email == "jay@gmail.com")
+            if (dto.Name == "jay")
             {
-                throw new Exception("Email is not Valid");
+                throw new Exception("Name is not Valid");
             }
 
             Random rnd = new Random();
             int val = rnd.Next(101, 200);
 
-            var customer = new Dealer
+            var customer = new CallListDto
             {
-                Id = val,
-                Balance = dto.Balance,
-                Email = dto.Email,
-                StartDate = dto.StartDate,
-                Name = dto.Name,
-                EditUrl = dto.EditUrl
+                Id = 1,
+                Status = "New",
+                Name = _randomTitle[2],
+                CallStartDate = DateTime.Today,
+                LastCallDate = DateTime.Today,
+                CallSheet = "https://www.google.com"
             };
 
             return customer;
         }
 
         // Update
-        public Dealer Put(Dealer dto)
+        public CallListDto Put(CallListDto dto)
         {
             Console.WriteLine("Update Got Called");
-            var customer = new Dealer
+            var customer = new CallListDto
             {
-                Id = dto.Id,
-                Balance = dto.Balance,
-                Email = dto.Email,
-                StartDate = dto.StartDate,
-                Name = dto.Name,
-                EditUrl = dto.EditUrl
+                Id = 1,
+                Status = "New",
+                Name = _randomTitle[2],
+                CallStartDate = DateTime.Today,
+                LastCallDate = DateTime.Today,
+                CallSheet = "https://www.google.com"
             };
 
             return customer;

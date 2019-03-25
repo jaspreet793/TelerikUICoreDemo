@@ -23,7 +23,7 @@ namespace TelerikUICoreDemo.Controllers
             return Json(GetCustomers().ToDataSourceResult(request));
         }
 
-        private IEnumerable<Dealer> GetCustomers()
+        private IEnumerable<CallListDto> GetCustomers()
         {
             return _customerData.GetAll();
         }
@@ -32,12 +32,17 @@ namespace TelerikUICoreDemo.Controllers
 
         [HttpPost]
         public ActionResult Customers_Update([DataSourceRequest] DataSourceRequest request,
-            [Bind(Prefix = "models")]IEnumerable<Dealer> dealers)
+            [Bind(Prefix = "models")]IEnumerable<CallListDto> dealers)
         {
             if (dealers != null && ModelState.IsValid)
             {
                 foreach (var dealer in dealers)
                 {
+                    if (dealer.Name.ToLower() == "jay")
+                    {
+                        ModelState.AddModelError("Name", "Name is not Valid");
+                        return Json(dealers.ToDataSourceResult(request, ModelState));
+                    }
                     _customerData.Put(dealer);
                 }
             }
@@ -47,17 +52,17 @@ namespace TelerikUICoreDemo.Controllers
 
         [HttpPost]
         public ActionResult Customers_Create([DataSourceRequest] DataSourceRequest request,
-            [Bind(Prefix = "models")]IEnumerable<Dealer> dealers)
+            [Bind(Prefix = "models")]IEnumerable<CallListDto> dealers)
         {
-            var results = new List<Dealer>();
+            var results = new List<CallListDto>();
             if (dealers != null && ModelState.IsValid)
             {
                 foreach (var dealer in dealers)
                 {
                     results.Add(dealer);
-                    if (dealer.Email == "jay@gmail.com")
+                    if (dealer.Name.ToLower() == "jay")
                     {
-                        ModelState.AddModelError("Email", "Email is not Valid");
+                        ModelState.AddModelError("Name", "Name is not Valid");
                         return Json(results.ToDataSourceResult(request, ModelState));
                     }
                     _customerData.Post(dealer);
@@ -70,7 +75,7 @@ namespace TelerikUICoreDemo.Controllers
 
         [HttpPost]
         public ActionResult Customers_Destroy([DataSourceRequest] DataSourceRequest request,
-            [Bind(Prefix = "models")]IEnumerable<Dealer> dealers)
+            [Bind(Prefix = "models")]IEnumerable<CallListDto> dealers)
         {
             foreach (var dealer in dealers)
             {
